@@ -399,10 +399,10 @@ export class StateMachine {
         const undoData = this.undoList[this.undoList.length - this.undoDepth];
         if (undoData.action == "変形の巻き戻し") {
             const object = undoData.data.object;
-            if (object.type) {
-                baseTransform(object, undoData.data.undo);
-            } else {
+            if (object.type == "オールアニメーション") {
                 object.transformAnimationData(undoData.data.undo);
+            } else {
+                baseTransform(object, undoData.data.undo);
             }
         }
         return true;

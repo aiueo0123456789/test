@@ -3,7 +3,7 @@ import { c_sr, c_sr_u,c_srw,animationTransformPipeline, c_srw_sr } from "./GPUOb
 
 export class AllAnimation {
     constructor(name, belongObject) {
-        this.type = "all";
+        this.type = "オールアニメーション";
         this.weight = 0;
         this.s_verticesAnimationBuffer = null;
         this.u_animationWeightBuffer = GPU.createUniformBuffer(4, undefined, ['f32']);
@@ -18,7 +18,7 @@ export class AllAnimation {
 
     // gc対象にしてメモリ解放
     destroy() {
-        this.type = "all";
+        this.type = "オールアニメーション";
         this.weight = 0;
         this.s_verticesAnimationBuffer = null;
         this.u_animationWeightBuffer = null;

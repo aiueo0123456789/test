@@ -2,6 +2,7 @@ import { device,GPU } from "./webGPU.js";
 import { AllAnimation } from "./アニメーション.js";
 import { v_sr_sr,c_srw,c_srw_sr,c_srw_sr_sr,v_sr_sr_f_t,v_sr, c_sr, f_str, c_stw_t, v_sr_sr_f_t_t_u } from "./GPUObject.js";
 import { render } from "./main.js";
+import { setBaseBBox } from "./オブジェクトで共通の処理.js";
 
 export class GraphicMesh {
     constructor(name) {
@@ -144,6 +145,7 @@ export class GraphicMesh {
 
         this.isInit = true;
         this.setGroup();
+        setBaseBBox(this);
 
         // data.texture = null; // base64のデータが邪魔だから消す
 

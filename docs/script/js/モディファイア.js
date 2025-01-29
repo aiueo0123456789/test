@@ -3,7 +3,8 @@ import { Children } from "./子要素.js";
 import { AllAnimation } from "./アニメーション.js";
 import { vec2 } from "./ベクトル計算.js";
 import { v_sr,c_sr,c_u_u,c_srw,c_srw_sr,c_srw_u_u,c_srw_sr_u_u,v_sr_u, c_sr_sr, baseTransformPipeline } from "./GPUObject.js";
-import { calculateAllBBox } from "./BBox.js";
+import { BBox } from "./BBox.js";
+import { setBaseBBox, setParentModifierWeight } from "./オブジェクトで共通の処理.js";
 
 export class Modifier {
     constructor(name) {
@@ -13,17 +14,17 @@ export class Modifier {
 
         this.verticesNum = null;
         this.meshNum = null;
-        this.fineness = null;
-        this.u_finenessBuffer = GPU.createUniformBuffer( 2 * 4, undefined, ["u32"]);
+        this.fineness = [1,1];
+        this.u_finenessBuffer = GPU.createUniformBuffer(2 * 4, undefined, ["u32"]);
         this.s_renderVerticesPositionBuffer = null;
         this.s_verticesModifierEffectBuffer = null;
         this.modifierDataGroup = null;
         this.setParentModifierWeightGroup = null;
         this.modifierTransformDataGroup = null;
-        
+
         this.modifierTransformGroup = null;
         this.rotateModifierTransformGroup = null;
-        
+
         this.collisionVerticesGroup = null;
         
         this.updateModifierRenderVerticesGroup = null;
@@ -44,6 +45,8 @@ export class Modifier {
 
         this.boundingBox = {max: [], min: []};
         this.u_boundingBoxBuffer = GPU.createUniformBuffer(2 * (2) * 4, undefined, ["f32"]);
+
+        this.modifierDataGroup = GPU.createGroup(c_u_u, [{item: this.u_boundingBoxBuffer, type: 'b'}, {item: this.u_finenessBuffer, type: 'b'}]);
 
         this.parent = "";
 
@@ -94,7 +97,7 @@ export class Modifier {
 
         this.boundingBox = data.boundingBox;
         GPU.writeBuffer(this.u_boundingBoxBuffer, new Float32Array([...this.boundingBox.max, ...this.boundingBox.min]));
-        GPU.writeBuffer(this.u_finenessBuffer, new Float32Array(this.fineness));
+        GPU.writeBuffer(this.u_finenessBuffer, new Uint32Array(this.fineness));
         this.GPUAnimationDatas = [];
         for (const keyName in data.animationKeyDatas) {
             const animationData = data.animationKeyDatas[keyName];
@@ -110,19 +113,23 @@ export class Modifier {
         this.isInit = true;
 
         this.setBindGroup();
+        setBaseBBox(this);
     }
 
     setChildrenBBox() {
         const childrenBBox = [];
-        console.log(this)
-        for (const child of this.children) {
+        for (const child of this.children.objects) {
             childrenBBox.push(...child.baseBBoxArray);
         }
         this.init({fineness: this.fineness, boundingBox: BBox(childrenBBox), animationKeyDatas: []});
+        this.children.weightReset();
+        setParentModifierWeight(this);
     }
 
     updateFineness(newFineness) {
         this.init({fineness: newFineness, boundingBox: this.boundingBox, animationKeyDatas: []});
+        this.children.weightReset();
+        setParentModifierWeight(this);
     }
 
     createVertices(fineness, boundingBox) {
@@ -143,7 +150,6 @@ export class Modifier {
         this.adaptAnimationGroup1 = GPU.createGroup(c_srw, [{item: this.s_renderVerticesPositionBuffer, type: 'b'}]);
 
         this.setParentModifierWeightGroup = GPU.createGroup(c_srw_sr, [{item: this.s_verticesModifierEffectBuffer, type: 'b'}, {item: this.s_baseVerticesPositionBuffer, type: 'b'}]);
-        this.modifierDataGroup = GPU.createGroup(c_u_u, [{item: this.u_boundingBoxBuffer, type: 'b'}, {item: this.u_finenessBuffer, type: 'b'}]);
 
         this.modifierTransformDataGroup = GPU.createGroup(c_sr_sr, [{item: this.s_baseVerticesPositionBuffer, type: 'b'}, {item: this.s_renderVerticesPositionBuffer, type: 'b'}]);
 

@@ -27,7 +27,7 @@ export function updateVertices(object) {
         // アニメーションの適応
         computePassEncoder.setBindGroup(0, object.adaptAnimationGroup1);
         object.GPUAnimationDatas.forEach(animation => {
-            if (animation.type == "all") {
+            if (animation.type == "オールアニメーション") {
                 computePassEncoder.setPipeline(adaptAllAnimationToVerticesPipeline);
                 computePassEncoder.setBindGroup(1, animation.adaptAnimationGroup2);
                 computePassEncoder.dispatchWorkgroups(Math.ceil(object.verticesNum / 64), 1, 1); // ワークグループ数をディスパッチ

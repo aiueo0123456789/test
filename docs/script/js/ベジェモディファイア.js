@@ -2,6 +2,7 @@ import { device,GPU } from "./webGPU.js";
 import { Children } from "./子要素.js";
 import { AllAnimation } from "./アニメーション.js";
 import { v_sr,c_sr_sr,c_sr,c_srw,c_srw_sr } from "./GPUObject.js";
+import { setBaseBBox, setParentModifierWeight } from "./オブジェクトで共通の処理.js";
 
 export class LineModifier {
     constructor(name) {
@@ -94,6 +95,7 @@ export class LineModifier {
         this.isInit = true;
 
         this.setGroup();
+        setBaseBBox(this);
     }
 
     addBaseVertices(add) {
@@ -107,6 +109,7 @@ export class LineModifier {
         this.setGroup();
 
         this.children.weightReset();
+        setParentModifierWeight(this);
     }
 
     deleteLineVertices(sub) {
@@ -126,6 +129,7 @@ export class LineModifier {
         this.setGroup();
 
         this.children.weightReset();
+        setParentModifierWeight(this);
     }
 
     setGroup() {
