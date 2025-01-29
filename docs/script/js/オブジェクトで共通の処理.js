@@ -77,18 +77,6 @@ export function setParentModifierWeight(object) {
     }
 }
 
-export function setChildrenBBox(object) {
-    if (!object.children) {
-        console.warn("子要素が存在しません","setChildrenBBox:",object);
-        return 0;
-    }
-    const childrenBBox = [];
-    for (const child of object.children) {
-        childrenBBox.push(...child.baseBBoxArray);
-    }
-    GPU.writeBuffer(object.u_boundingBoxBuffer, new Float32Array(BBox(childrenBBox)));
-}
-
 export function setBaseBBox(object) {
     calculateAllBBox(object.calculateAllBaseBBoxGroup, object.verticesNum);
     GPU.copyBufferToArray(object.baseBBoxBuffer,object.baseBBoxArray);

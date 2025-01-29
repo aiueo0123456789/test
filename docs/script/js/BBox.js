@@ -23,5 +23,5 @@ export function BBox(points) {
         minX = Math.min(points[i], minX);
         minY = Math.min(points[i + 1], minY);
     }
-    return [maxX,maxY, minX,minY];
+    return {max: [maxX,maxY], min: [minX,minY]};
 }

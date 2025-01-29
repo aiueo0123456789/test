@@ -2,7 +2,8 @@ import { device,GPU } from "./webGPU.js";
 import { Children } from "./子要素.js";
 import { AllAnimation } from "./アニメーション.js";
 import { vec2 } from "./ベクトル計算.js";
-import { v_sr,c_sr,c_u_u,c_srw,c_srw_sr,c_srw_u_u,c_srw_sr_u_u,v_sr_u, c_sr_sr } from "./GPUObject.js";
+import { v_sr,c_sr,c_u_u,c_srw,c_srw_sr,c_srw_u_u,c_srw_sr_u_u,v_sr_u, c_sr_sr, baseTransformPipeline } from "./GPUObject.js";
+import { calculateAllBBox } from "./BBox.js";
 
 export class Modifier {
     constructor(name) {
@@ -110,6 +111,18 @@ export class Modifier {
 
         this.setBindGroup();
     }
+
+    setChildrenBBox(object) {
+    if (!object.children) {
+        console.warn("子要素が存在しません","setChildrenBBox:",object);
+        return 0;
+    }
+    const childrenBBox = [];
+    for (const child of object.children) {
+        childrenBBox.push(...child.baseBBoxArray);
+    }
+    this.init({fineness: this.fineness, boundingBox: BBox(childrenBBox), animationKeyDatas: []});
+}
 
     updateFineness(newFineness) {
         this.init({fineness: newFineness, boundingBox: this.boundingBox, animationKeyDatas: []});
