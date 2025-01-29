@@ -213,7 +213,7 @@ export function displayInspector(scrollableDiv, isInit) {
 
             finenessDivTag.append(finenessInputTagForX, finenessInputTagForY);
 
-            scrollableDiv.append(nameInputTag, parentSelectTag, BBoxMinDivTag, BBoxMaxDivTag, centerPositionDivTag, finenessDivTag);
+            scrollableDiv.append(nameInputTag, parentSelectTag, BBoxMinDivTag, BBoxMaxDivTag, centerPositionDivTag, setChildrenBBoxBtnTag, finenessDivTag);
         } else if (object.type == "ベジェモディファイア") {
             scrollableDiv.append(nameInputTag, parentSelectTag, BBoxMinDivTag, BBoxMaxDivTag, centerPositionDivTag);
         } else if (object.type == "回転モディファイア") {
