@@ -114,6 +114,7 @@ export class Modifier {
 
     setChildrenBBox() {
         const childrenBBox = [];
+        console.log(this)
         for (const child of this.children) {
             childrenBBox.push(...child.baseBBoxArray);
         }
