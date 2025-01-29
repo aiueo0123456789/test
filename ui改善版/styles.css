@@ -1,0 +1,173 @@
+body {
+    overflow-y: hidden;
+    height: 100vh;
+    background-color: #000000;
+}
+
+* {
+    color: rgb(214, 214, 214);
+    font-size: 90%;
+    border-radius: 5px;
+}
+
+canvas {
+    background-color: aliceblue;
+    width: 100%;
+    height: 100%;
+}
+
+/* スクロールバー全体のスタイル */
+::-webkit-scrollbar {
+    width: 5px; /* 横スクロールバーの高さも設定可能 */
+}
+
+/* トラック部分（背景）のスタイル */
+::-webkit-scrollbar-track {
+    background: #00000000;
+    border-radius: 10px;
+}
+
+/* つまみ部分（ドラッグできる部分）のスタイル */
+::-webkit-scrollbar-thumb {
+    background: #8c8c8c;
+    border-radius: 10px;
+}
+
+/* つまみ部分のホバー時のスタイル */
+::-webkit-scrollbar-thumb:hover {
+    background: #bbbbbb;
+}
+
+.scrollable {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto; /* スクロールを有効にする */
+    background-color: rgb(71, 71, 71);
+    display: flex;
+    gap: 2px;
+    flex-flow: column;
+}
+
+.flexBox {
+    display: flex;
+    gap: 10px;
+}
+
+input[type="text"] {
+    border: solid rgb(79, 79, 79) 2px;
+    border-radius: 4px;
+    background-color: rgb(130, 130, 130);
+}
+
+input[type="number"] {
+    border: solid rgb(79, 79, 79) 2px;
+    border-radius: 4px;
+    background-color: rgb(130, 130, 130);
+}
+
+input[type="range"] {
+    -webkit-appearance: none; /* デフォルトのスタイルをリセット */
+    appearance: none;
+    display: block;
+    margin: auto;
+    background: #404040; /* スライダーの背景色 */
+    outline: none; /* フォーカス時の青い枠を消す */
+    width: 100%; /* スライダーの幅 */
+    height: 2px; /* スライダーの高さ */
+    border-radius: 5px; /* 丸みをつける */
+}
+
+/* スライダーのつまみ（thumb）のスタイル */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 8px; /* つまみの幅 */
+    height: 8px; /* つまみの高さ */
+    background: #ff0000; /* つまみの色 */
+    border-radius: 50%; /* つまみを丸く */
+    cursor: pointer;
+}
+
+.toolbar {
+    display: flex;
+    width: 100%;
+    height: 25px;
+    background-color: rgb(63, 63, 63);
+}
+
+.modeSelect {
+    width: fit-content;
+    background-color: rgb(63, 63, 63);
+    display: flex;
+    gap: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.modeSelect select {
+    width: fit-content;
+    background-color: #111111;
+    border: solid rgb(63, 63, 63);
+}
+
+.modeSelect button {
+    background-color: #111111;
+    border: solid rgb(63, 63, 63);
+}
+
+.grid-main {
+    width: 100%;
+    height: 100%;
+}
+
+.grid-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+.all {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 20px calc(100% - 20px);
+}
+
+.main {
+    grid-row: 2 / 3;
+    width: 100%;
+    height: 100%;
+}
+
+.menubar {
+    grid-row: 1 / 2;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    overflow-x: auto;
+    display: flex;
+    gap: 20px;
+    padding-left: 10px;
+    border-radius: 0px;
+}
+
+.menubar * {
+    font-size: 150%;
+    height: 100%;
+}
+
+.menubar input[type="text"] {
+    font-size: 100%;
+}
+
+.coordinate-input {
+    display: flex;
+}
+
+#open-btn {
+    display: none;
+}
+/* #open-btn::file-selector-button {
+    display: none;
+} */

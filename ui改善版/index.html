@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>グリッドレイアウト</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css@1.0.15/destyle.css"/>
+    <link rel="stylesheet" href="gridStyles.css">
+    <link rel="stylesheet" href="contextmenuStyles.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="hierarchyStyles.css">
+</head>
+<body>
+    <div class="all">
+        <div id="menubar" class="menubar">
+            <label>プロジェク名
+                <input id="projectName-input" type="text" value="名称未設定">
+            </label>
+            <button id="save-btn">保存</button>
+            <label>開く
+                <input id="open-btn" type="file">
+            </label>
+        </div>
+        <div id="app" class="main">
+        </div>
+    </div>
+    <button class="sml-btn" id="add-animationKey">+</button>
+    <!-- 変形時の調整用 -->
+    <div id="tarsform-form" class="canvas-cover hidden">
+        <button id="toolForm-submit">適応</button>
+        <h2>変形時の調整用</h2>
+        <div class="form1" id="toorForm-values">
+            <p id="toorFormValues-p">移動量</p>
+            <label>x:
+                <input id="toolForm-move-value1" type="number" value="0" step="0.000001" max="9999999" min="-9999999">
+            </label>
+            <br>
+            <label>y:
+                <input id="toolForm-move-value2" type="number" value="0" step="0.000001" max="9999999" min="-9999999">
+            </label>
+        </div>
+    </div>
+    <ul id="contextmenu-container" class="contextmenu">
+    </ul>
+    <!-- 警告表示用のモーダル -->
+    <div id="warnModel" class="modal hidden">
+        <div class="modal-content">
+            <p id="errorText">エラー内容</p>
+            <button type="button" id="warnModelCloseButton">ok</button>
+        </div>
+    </div>
+    <script src="script/js/main.js" type="module"></script>
+</body>
+</html>
