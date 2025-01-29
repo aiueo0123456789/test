@@ -188,6 +188,12 @@ export function displayInspector(scrollableDiv, isInit) {
                 object.updateFineness([Number(finenessInputTagForX.value) ,Number(finenessInputTagForY.value)]);
             }
 
+            const setChildrenBBoxBtnTag = document.createElement("button");
+            setChildrenBBoxBtnTag.textContent = "メッシュの自動生成";
+            setChildrenBBoxBtnTag.addEventListener("click", () => {
+                object.setChildrenBBox();
+            })
+
             const finenessInputTagForX = document.createElement("input");
             finenessInputTagForX.type = "number";
             finenessInputTagForX.addEventListener('change', changeFinenessFn);

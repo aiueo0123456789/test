@@ -112,17 +112,13 @@ export class Modifier {
         this.setBindGroup();
     }
 
-    setChildrenBBox(object) {
-    if (!object.children) {
-        console.warn("子要素が存在しません","setChildrenBBox:",object);
-        return 0;
+    setChildrenBBox() {
+        const childrenBBox = [];
+        for (const child of this.children) {
+            childrenBBox.push(...child.baseBBoxArray);
+        }
+        this.init({fineness: this.fineness, boundingBox: BBox(childrenBBox), animationKeyDatas: []});
     }
-    const childrenBBox = [];
-    for (const child of object.children) {
-        childrenBBox.push(...child.baseBBoxArray);
-    }
-    this.init({fineness: this.fineness, boundingBox: BBox(childrenBBox), animationKeyDatas: []});
-}
 
     updateFineness(newFineness) {
         this.init({fineness: newFineness, boundingBox: this.boundingBox, animationKeyDatas: []});
