@@ -1,6 +1,6 @@
 import { GPU,device } from "./webGPU.js";
 import { c_srw,c_srw_sr,adaptAllAnimationToVerticesPipeline,adaptLimitAnimationToVerticesPipeline,modifierTransformPipeline,rotateModifierTransformPipeline,lineModifierTransformPipeline, v_sr_sr_sr, c_sr, baseTransformPipeline, setModifierWeightToGraphicMeshPipeline, v_u_f_ts, sampler, renderPipeline, textureMaskPipeline, setLineModifierWeightToGraphicMeshPipeline, updateCenterPositionPipeline, c_u } from "./GPUObject.js";
-import { calculateAllBBox } from "./BBox.js";
+import { BBox, calculateAllBBox } from "./BBox.js";
 
 export function updateVertices(object) {
     if (!object.isInit) return ;
@@ -77,10 +77,28 @@ export function setParentModifierWeight(object) {
     }
 }
 
+export function setChildrenBBox(object) {
+    if (!object.children) {
+        console.warn("子要素が存在しません","setChildrenBBox:",object);
+        return 0;
+    }
+    const childrenBBox = [];
+    for (const child of object.children) {
+        childrenBBox.push(...child.baseBBoxArray);
+    }
+    return BBox(childrenBBox);
+}
+
+export function setBaseBBox(object) {
+    calculateAllBBox(object.calculateAllBaseBBoxGroup, object.verticesNum);
+    GPU.copyBufferToArray(object.baseBBoxBuffer,object.baseBBoxArray);
+}
+
 export function baseTransform(object, transformDataGroup) {
     const baseTransformGroup1 = GPU.createGroup(c_srw, [{item: object.s_baseVerticesPositionBuffer, type: 'b'}]);
     GPU.runComputeShader(baseTransformPipeline, [baseTransformGroup1, transformDataGroup], Math.ceil(object.verticesNum / 64));
 
+    setBaseBBox(object);
     setParentModifierWeight(object);
 }
 
@@ -88,8 +106,9 @@ const centerPositionBuffer = GPU.createUniformBuffer(2 * 4, undefined, ["f32"]);
 const updateCenterPositionGroup2 = GPU.createGroup(c_u, [{item: centerPositionBuffer, type: 'b'}]);
 export function updateCenterPosition(object, centerPosition) {
     GPU.writeBuffer(centerPositionBuffer, new Float32Array(centerPosition));
-    const baseTransformGroup1 = GPU.createGroup(c_srw_sr, [{item: object.s_baseVerticesPositionBuffer, type: 'b'}, {item: object.BBoxBuffer, type: 'b'}]);
+    const baseTransformGroup1 = GPU.createGroup(c_srw_sr, [{item: object.s_baseVerticesPositionBuffer, type: 'b'}, {item: object.baseBBox, type: 'b'}]);
     GPU.runComputeShader(updateCenterPositionPipeline, [baseTransformGroup1, updateCenterPositionGroup2], Math.ceil(object.verticesNum / 64));
+    setBaseBBox(object);
 }
 
 export function searchAnimation(object, animationName) {

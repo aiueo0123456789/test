@@ -13,33 +13,36 @@ export class Modifier {
         this.verticesNum = null;
         this.meshNum = null;
         this.fineness = null;
-        this.u_finenessBuffer = null;
+        this.u_finenessBuffer = GPU.createUniformBuffer( 2 * 4, undefined, ["u32"]);
         this.s_renderVerticesPositionBuffer = null;
         this.s_verticesModifierEffectBuffer = null;
         this.modifierDataGroup = null;
         this.setParentModifierWeightGroup = null;
         this.modifierTransformDataGroup = null;
-
+        
         this.modifierTransformGroup = null;
         this.rotateModifierTransformGroup = null;
-
+        
         this.collisionVerticesGroup = null;
-
+        
         this.updateModifierRenderVerticesGroup = null;
         this.adaptAnimationGroup1 = null;
-
+        
         this.GUIMeshRenderGroup = null;
         this.GUIVerticesRenderGroup = null;
-
+        
         this.BBoxArray = [0,0,0,0];
         this.BBoxBuffer = GPU.createStorageBuffer(4 * 4, undefined, ["f32"]);
         this.BBoxRenderGroup = GPU.createGroup(v_sr, [{item: this.BBoxBuffer, type: 'b'}]);
+        
+        this.baseBBoxArray = [0,0,0,0];
+        this.baseBBoxBuffer = GPU.createStorageBuffer(4 * 4, undefined, ["f32"]);
 
         this.GPUAnimationDatas = [];
         this.renderBBoxData = {max: [], min: []};
 
         this.boundingBox = {max: [], min: []};
-        this.u_boundingBoxBuffer = null;
+        this.u_boundingBoxBuffer = GPU.createUniformBuffer( 2 * (2) * 4, undefined, ["f32"]);
 
         this.parent = "";
 
@@ -89,9 +92,8 @@ export class Modifier {
         this.meshNum = this.fineness[0] * this.fineness[1];
 
         this.boundingBox = data.boundingBox;
-        this.u_boundingBoxBuffer = GPU.createUniformBuffer( 2 * (2) * 4, undefined, ["f32"]);
-        device.queue.writeBuffer(this.u_boundingBoxBuffer, 0, new Float32Array([...this.boundingBox.max, ...this.boundingBox.min]));
-        this.u_finenessBuffer = GPU.createUniformBuffer( 2 * 4, this.fineness, ["u32"]);
+        GPU.writeBuffer(this.u_boundingBoxBuffer, new Float32Array([...this.boundingBox.max, ...this.boundingBox.min]));
+        GPU.writeBuffer(this.u_finenessBuffer, new Float32Array(this.fineness));
         this.GPUAnimationDatas = [];
         for (const keyName in data.animationKeyDatas) {
             const animationData = data.animationKeyDatas[keyName];
@@ -139,6 +141,7 @@ export class Modifier {
         this.rotateModifierTransformGroup = GPU.createGroup(c_srw_u_u, [{item: this.s_renderVerticesPositionBuffer, type: "b"}, {item: this.u_boundingBoxBuffer, type: "b"}, {item: this.u_finenessBuffer, type: "b"}]);
 
         this.calculateAllBBoxGroup = GPU.createGroup(c_srw_sr, [{item: this.BBoxBuffer, type: 'b'}, {item: this.s_renderVerticesPositionBuffer, type: 'b'}]);
+        this.calculateAllBaseBBoxGroup = GPU.createGroup(c_srw_sr, [{item: this.baseBBoxBuffer, type: 'b'}, {item: this.s_baseVerticesPositionBuffer, type: 'b'}]);
         this.GUIVerticesRenderGroup = GPU.createGroup(v_sr, [{item: this.s_renderVerticesPositionBuffer, type: 'b'}]);
         this.GUIMeshRenderGroup = GPU.createGroup(v_sr_u, [{item: this.s_renderVerticesPositionBuffer, type: 'b'}, {item: this.u_finenessBuffer, type: 'b'}]);
     }

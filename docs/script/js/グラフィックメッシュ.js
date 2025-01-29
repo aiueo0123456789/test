@@ -41,6 +41,9 @@ export class GraphicMesh {
         this.BBoxBuffer = GPU.createStorageBuffer(4 * 4, undefined, ["f32"]);
         this.BBoxRenderGroup = GPU.createGroup(v_sr, [{item: this.BBoxBuffer, type: 'b'}]);
 
+        this.baseBBoxArray = [0,0,0,0];
+        this.baseBBoxBuffer = GPU.createStorageBuffer(4 * 4, undefined, ["f32"]);
+
         this.verticesNum = null;
         this.meshNum = null;
 
@@ -201,6 +204,7 @@ export class GraphicMesh {
         this.renderGroup = GPU.createGroup(v_sr_sr_f_t_t_u, [{item: this.s_renderVerticesPositionBuffer, type: 'b'}, {item: this.s_baseVerticesUVBuffer, type: 'b'}, {item: this.textureView, type: 't'}, {item: this.maskTargetTexture.textureView, type: 't'}, {item: this.maskTypeBuffer, type: "b"}]);
         this.maskRenderGroup = GPU.createGroup(v_sr_sr_f_t, [{item: this.s_renderVerticesPositionBuffer, type: 'b'}, {item: this.s_baseVerticesUVBuffer, type: 'b'}, {item: this.textureView, type: 't'}]);
         this.calculateAllBBoxGroup = GPU.createGroup(c_srw_sr, [{item: this.BBoxBuffer, type: 'b'}, {item: this.s_renderVerticesPositionBuffer, type: 'b'}]);
+        this.calculateAllBaseBBoxGroup = GPU.createGroup(c_srw_sr, [{item: this.baseBBoxBuffer, type: 'b'}, {item: this.s_baseVerticesPositionBuffer, type: 'b'}]);
         this.GUIMeshRenderGroup = GPU.createGroup(v_sr_sr, [{item: this.s_renderVerticesPositionBuffer, type: 'b'}, {item: this.s_meshIndexBuffer, type: 'b'}]);
         this.GUIVerticesRenderGroup = GPU.createGroup(v_sr, [{item: this.s_renderVerticesPositionBuffer, type: 'b'}]);
     }

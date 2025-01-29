@@ -27,6 +27,9 @@ export class LineModifier {
         this.BBoxBuffer = GPU.createStorageBuffer(4 * 4, undefined, ["f32"]);
         this.BBoxRenderGroup = GPU.createGroup(v_sr, [{item: this.BBoxBuffer, type: 'b'}]);
 
+        this.baseBBoxArray = [0,0,0,0];
+        this.baseBBoxBuffer = GPU.createStorageBuffer(4 * 4, undefined, ["f32"]);
+
         this.roop = true;
         this.verticesNum = 0;
         this.pointNum = 0;
@@ -135,6 +138,7 @@ export class LineModifier {
 
         this.setParentModifierWeightGroup = GPU.createGroup(c_srw_sr, [{item: this.s_verticesModifierEffectBuffer, type: 'b'}, {item: this.s_baseVerticesPositionBuffer, type: 'b'}]);
         this.calculateAllBBoxGroup = GPU.createGroup(c_srw_sr, [{item: this.BBoxBuffer, type: 'b'}, {item: this.s_renderVerticesPositionBuffer, type: 'b'}]);
+        this.calculateAllBaseBBoxGroup = GPU.createGroup(c_srw_sr, [{item: this.baseBBoxBuffer, type: 'b'}, {item: this.s_baseVerticesPositionBuffer, type: 'b'}]);
         this.GUIrenderGroup = GPU.createGroup(v_sr, [{item: this.s_renderVerticesPositionBuffer, type: 'b'}]);
     }
 

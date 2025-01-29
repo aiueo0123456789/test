@@ -278,7 +278,7 @@ export class StateMachine {
                 this.state.data.selectVerticesIndexsGroup = GPU.createGroup(v_sr, [{item: this.state.data.selectVerticesIndexBuffer, type: "b"}]);
             }
         } else if (mouseState.holdFrameCount > 10) {
-            updateSelectVerticesIndexs(await boxSelectVertices(this.state.data.object, BBox([
+            updateSelectVerticesIndexs(await boxSelectVertices(this.state.data.object, vec2.createBBox([
                 mouseState.positionForGPU,
                 mouseState.clickPositionForGPU
             ])), keysDown["Shift"]);
