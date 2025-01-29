@@ -4,8 +4,6 @@ const v_renderShaderModule = GPU.createShaderModule(await fetch('./script/wgsl/�
 const f_renderShaderModule = GPU.createShaderModule(await fetch('./script/wgsl/レンダー/f_render.wgsl').then(x => x.text()));
 const v_maskRenderShaderModule = GPU.createShaderModule(await fetch('./script/wgsl/レンダー/マスク/v.wgsl').then(x => x.text()));
 const f_maskRenderShaderModule = GPU.createShaderModule(await fetch('./script/wgsl/レンダー/マスク/f.wgsl').then(x => x.text()));
-// const v_renderShaderModule = GPU.createShaderModule(await fetch('./script/wgsl/レンダー/v_グラフィックメッシュごとのレンダリング.wgsl').then(x => x.text()));
-// const f_renderShaderModule = GPU.createShaderModule(await fetch('./script/wgsl/レンダー/f_グラフィックメッシュごとのレンダリング.wgsl').then(x => x.text()));
 const v_allSquareRenderShaderModule = GPU.createShaderModule(await fetch('./script/wgsl/レンダー/v_全ての頂点を四角として表示.wgsl').then(x => x.text()));
 const f_textureRenderShaderModule = GPU.createShaderModule(await fetch('./script/wgsl/レンダー/f_テクスチャ表示.wgsl').then(x => x.text()));
 const v_PSRSquareRenderShaderModule = GPU.createShaderModule(await fetch('./script/wgsl/レンダー/v_座標・回転・スケールを四角として表示.wgsl').then(x => x.text()));
@@ -21,7 +19,6 @@ const v_bezierRenderShaderModule = GPU.createShaderModule(await fetch('./script/
 const v_cvsDraw = GPU.createShaderModule(await fetch('./script/wgsl/レンダー/v_canvasDraw.wgsl').then(x => x.text()));
 const f_cvsDraw = GPU.createShaderModule(await fetch('./script/wgsl/レンダー/f_canvasDraw.wgsl').then(x => x.text()));
 
-// パイプラインの作成
 const createTransformInitialData = GPU.createShaderModule(await fetch('./script/wgsl/compute/アニメーションデータの変形データを計算.wgsl').then(x => x.text()));
 const circleSelectVertices = GPU.createShaderModule(await fetch('./script/wgsl/compute/頂点の円選択.wgsl').then(x => x.text()));
 const boxSelectVertices = GPU.createShaderModule(await fetch('./script/wgsl/compute/頂点のボックス選択.wgsl').then(x => x.text()));
