@@ -189,7 +189,7 @@ export function displayInspector(scrollableDiv, isInit) {
             }
 
             const setChildrenBBoxBtnTag = document.createElement("button");
-            setChildrenBBoxBtnTag.textContent = "メッシュの自動生成";
+            setChildrenBBoxBtnTag.textContent = "子要素からバウンディングボックスを計算";
             setChildrenBBoxBtnTag.addEventListener("click", () => {
                 object.setChildrenBBox();
             })
