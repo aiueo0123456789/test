@@ -42,7 +42,7 @@ export class Modifier {
         this.renderBBoxData = {max: [], min: []};
 
         this.boundingBox = {max: [], min: []};
-        this.u_boundingBoxBuffer = GPU.createUniformBuffer( 2 * (2) * 4, undefined, ["f32"]);
+        this.u_boundingBoxBuffer = GPU.createUniformBuffer(2 * (2) * 4, undefined, ["f32"]);
 
         this.parent = "";
 

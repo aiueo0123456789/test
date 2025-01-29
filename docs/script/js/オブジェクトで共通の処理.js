@@ -86,7 +86,7 @@ export function setChildrenBBox(object) {
     for (const child of object.children) {
         childrenBBox.push(...child.baseBBoxArray);
     }
-    return BBox(childrenBBox);
+    GPU.writeBuffer(object.u_boundingBoxBuffer, new Float32Array(BBox(childrenBBox)));
 }
 
 export function setBaseBBox(object) {
